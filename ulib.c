@@ -3,6 +3,7 @@
 #include "fcntl.h"
 #include "user.h"
 #include "x86.h"
+#include "pstat.h"
 
 char*
 strcpy(char *s, const char *t)
@@ -104,3 +105,39 @@ memmove(void *vdst, const void *vsrc, int n)
     *dst++ = *src++;
   return vdst;
 }
+
+int
+getpinfo(struct pstat *p)
+{
+	return syscall(SYS_getpinfo, p);
+}
+
+void
+ps(void)
+{
+	struct pstat stats[NPROC];
+	int i;
+
+	if (getpinfo(&stats) < 0) 
+	{
+		printf(2, "getpinfo failed\n");
+		return;
+	}
+	
+	printf(1, "PID\tTICKETS\tTICKS\tINUSE\tSTATE\tNAME\n");
+	
+	for (i = 0; i < NPROC; i++)
+	{
+		if (stats[i].inuse)
+		{
+			printf(1, "%d\t%d\t%d\t%d\t%c\t%s\n",
+			  stats[i].pid,
+			  stats[i].tickets,
+       			  stats[i].ticks,
+       			  stats[i].inuse,
+       			  stats[i].state,
+       			  stats[i].name);
+		}
+	}
+}
+

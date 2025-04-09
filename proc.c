@@ -130,8 +130,6 @@ userinit(void)
   initproc = p;
   if((p->pgdir = setupkvm()) == 0)
     panic("userinit: out of memory?");
-  p->ticks = 0;
-  p->tickets = 10;
   inituvm(p->pgdir, _binary_initcode_start, (int)_binary_initcode_size);
   p->sz = PGSIZE;
   memset(p->tf, 0, sizeof(*p->tf));
@@ -142,6 +140,8 @@ userinit(void)
   p->tf->eflags = FL_IF;
   p->tf->esp = PGSIZE;
   p->tf->eip = 0;  // beginning of initcode.S
+  p->ticks = 0; // p1
+  p->tickets = 10; // p1
 
   safestrcpy(p->name, "initcode", sizeof(p->name));
   p->cwd = namei("/");
@@ -214,8 +214,8 @@ fork(void)
 
   safestrcpy(np->name, curproc->name, sizeof(curproc->name));
   
-  np->ticks = 0;
-  if (curproc->tickets > 10)
+  np->ticks = 0; // p1
+  if (curproc->tickets > 10) // p1
   {
     np->tickets = curproc->tickets;
   }
@@ -548,7 +548,7 @@ procdump(void)
 }
 
 void
-fillpstat(pstatTable *pstat)
+getpinfo(pstatTable *pstat)
 {
 	struct proc *p;
 	int i = 0;

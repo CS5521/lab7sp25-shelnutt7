@@ -1,7 +1,7 @@
 #include "param.h"
 
 #ifndef _PSTAT_H_
-#define -PSTAT_H_
+#define _PSTAT_H_
 
 typedef struct {
 	int inuse;        // whether this slot of the process table is in use

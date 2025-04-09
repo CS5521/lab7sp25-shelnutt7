@@ -8,6 +8,8 @@
 #include "proc.h"
 #include "pstat.h"
 
+extern void fillpstat(pstatTable *);
+
 int
 sys_fork(void)
 {
@@ -101,6 +103,6 @@ sys_getpinfo(void)
 		return -1;
 	}
 	
-	fillpstat(pstat);
+	getpinfo(pstat);
 	return 0;
 }
