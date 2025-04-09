@@ -129,6 +129,8 @@ userinit(void)
   initproc = p;
   if((p->pgdir = setupkvm()) == 0)
     panic("userinit: out of memory?");
+  p->ticks = 0;
+  p->tickets = 10;
   inituvm(p->pgdir, _binary_initcode_start, (int)_binary_initcode_size);
   p->sz = PGSIZE;
   memset(p->tf, 0, sizeof(*p->tf));
@@ -210,7 +212,17 @@ fork(void)
   np->cwd = idup(curproc->cwd);
 
   safestrcpy(np->name, curproc->name, sizeof(curproc->name));
-
+  
+  np->ticks = 0;
+  if (curproc->tickets > 10)
+  {
+    np->tickets = curproc->tickets;
+  }
+  else
+  {
+    np->tickets = 10;
+  }
+  
   pid = np->pid;
 
   acquire(&ptable.lock);
