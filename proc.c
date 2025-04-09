@@ -18,6 +18,7 @@ static struct proc *initproc;
 int nextpid = 1;
 extern void forkret(void);
 extern void trapret(void);
+extern void fillpstat(pstatTable *);
 
 static void wakeup1(void *chan);
 
@@ -544,4 +545,62 @@ procdump(void)
     }
     cprintf("\n");
   }
+}
+
+void
+fillpstat(pstatTable *pstat)
+{
+	struct proc *p;
+	int i = 0;
+
+	acquire(&ptable.lock);
+	
+	for (p = ptable.proc; p < &ptable.proc[NPROC]; p++, i++)
+	{
+		if (p->state != UNUSED)
+		{
+			(*pstat)[i].inuse = 1;
+		}
+		else
+		{
+			(*pstat)[i].inuse = 0;
+		}
+		
+		(*pstat)[i].tickets = p->tickets;
+		(*pstat)[i].ticks = p->ticks;
+		(*pstat)[i].pid = p->pid;
+		safestrcpy((*pstat)[i].name, p->name, sizeof(p->name));
+
+		if (p->state == EMBRYO)
+		{
+			(*pstat)[i].state = 'E';
+			break;
+		}
+		else if (p->state == RUNNING)
+		{
+			(*pstat)[i].state = 'R';
+			break;
+		}
+		else if (p->state == RUNNABLE)
+		{
+			(*pstat)[i].state = 'A';
+			break;
+		}
+		else if (p->state == SLEEPING)
+		{
+			(*pstat)[i].state = 'S';
+			break;
+		}
+		else if (p->state == ZOMBIE)
+		{
+			(*pstat)[i].state = 'Z';
+			break;
+		}
+		else
+		{
+			(*pstat)[i].state = '?';
+			break;		
+		}
+	}
+	release(&ptable.lock);
 }
