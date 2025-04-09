@@ -568,8 +568,12 @@ fillpstat(pstatTable *pstat)
 		(*pstat)[i].tickets = p->tickets;
 		(*pstat)[i].ticks = p->ticks;
 		(*pstat)[i].pid = p->pid;
-		safestrcpy((*pstat)[i].name, p->name, sizeof(p->name));
-
+		int j;
+		for (j = 0; j < 16; j++)
+		{
+			(*pstat)[i].name[j] = p->name[j];
+		}
+		
 		if (p->state == EMBRYO)
 		{
 			(*pstat)[i].state = 'E';

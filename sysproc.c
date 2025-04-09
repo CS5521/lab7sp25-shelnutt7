@@ -94,10 +94,8 @@ sys_uptime(void)
 }
 
 int
-sys_getpinfo(void)
+sys_getpinfo(pstatTable *pstat)
 {
-	pstatTable *pstat;
-
 	if (argptr(0, (void*)&pstat, sizeof(pstatTable)) < 0)
 	{
 		return -1;
