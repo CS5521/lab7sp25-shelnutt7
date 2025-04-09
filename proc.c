@@ -215,6 +215,7 @@ fork(void)
   safestrcpy(np->name, curproc->name, sizeof(curproc->name));
   
   np->ticks = 0; // p1
+  
   if (curproc->tickets > 10) // p1
   {
     np->tickets = curproc->tickets;

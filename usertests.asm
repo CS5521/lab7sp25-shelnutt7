@@ -6257,7 +6257,7 @@ ps(void)
     3fee:	8d 85 e4 f6 ff ff    	lea    -0x91c(%ebp),%eax
     3ff4:	89 04 24             	mov    %eax,(%esp)
     3ff7:	e8 ab 01 00 00       	call   41a7 <getpinfo>
-	printf(1, "PID\tTKTS\tTKTS\tSTAT\tNAME\n");
+	printf(1, "PID\tTKTS\tTCKS\tSTAT\tNAME\n");
     3ffc:	c7 44 24 04 86 5e 00 	movl   $0x5e86,0x4(%esp)
     4003:	00 
     4004:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)

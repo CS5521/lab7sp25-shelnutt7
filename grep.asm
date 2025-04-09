@@ -762,7 +762,7 @@ ps(void)
  5cc:	8d 85 e4 f6 ff ff    	lea    -0x91c(%ebp),%eax
  5d2:	89 04 24             	mov    %eax,(%esp)
  5d5:	e8 ab 01 00 00       	call   785 <getpinfo>
-	printf(1, "PID\tTKTS\tTKTS\tSTAT\tNAME\n");
+	printf(1, "PID\tTKTS\tTCKS\tSTAT\tNAME\n");
  5da:	c7 44 24 04 72 0c 00 	movl   $0xc72,0x4(%esp)
  5e1:	00 
  5e2:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)

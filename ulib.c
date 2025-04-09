@@ -111,7 +111,7 @@ ps(void)
 {	
 	pstatTable pstat;
 	getpinfo(&pstat);
-	printf(1, "PID\tTKTS\tTKTS\tSTAT\tNAME\n");
+	printf(1, "PID\tTKTS\tTCKS\tSTAT\tNAME\n");
 	
 	int i;
 	for (i = 0; i < NPROC; i++)

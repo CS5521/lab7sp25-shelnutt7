@@ -710,7 +710,7 @@ ps(void)
  5c7:	8d 85 e4 f6 ff ff    	lea    -0x91c(%ebp),%eax
  5cd:	89 04 24             	mov    %eax,(%esp)
  5d0:	e8 ab 01 00 00       	call   780 <getpinfo>
-	printf(1, "PID\tTKTS\tTKTS\tSTAT\tNAME\n");
+	printf(1, "PID\tTKTS\tTCKS\tSTAT\tNAME\n");
  5d5:	c7 44 24 04 7e 0c 00 	movl   $0xc7e,0x4(%esp)
  5dc:	00 
  5dd:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)
