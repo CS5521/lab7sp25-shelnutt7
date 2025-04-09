@@ -104,3 +104,4 @@ sys_getpinfo(pstatTable *pstat)
 	fillpstat(pstat);
 	return 0;
 }
+
