@@ -551,12 +551,11 @@ void
 fillpstat(pstatTable *pstat)
 {
 	struct proc *p;
-	int i;
+	int i = 0;
 	acquire(&ptable.lock);
 	
-	for (i = 0; i < NPROC; i++)
+	for (p = ptable.proc; p < &ptable.proc[NPROC]; p++, i++)
 	{
-		p = &ptable.proc[i];
 		if (p->state != UNUSED)
 		{
 			(*pstat)[i].inuse = 1;
