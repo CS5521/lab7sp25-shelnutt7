@@ -548,15 +548,15 @@ procdump(void)
 }
 
 void
-getpinfo(pstatTable *pstat)
+fillpstat(pstatTable *pstat)
 {
 	struct proc *p;
-	int i = 0;
-
+	int i;
 	acquire(&ptable.lock);
 	
-	for (p = ptable.proc; p < &ptable.proc[NPROC]; p++, i++)
+	for (i = 0; i < NPROC; i++)
 	{
+		p = &ptable.proc[i];
 		if (p->state != UNUSED)
 		{
 			(*pstat)[i].inuse = 1;
@@ -574,32 +574,26 @@ getpinfo(pstatTable *pstat)
 		if (p->state == EMBRYO)
 		{
 			(*pstat)[i].state = 'E';
-			break;
 		}
 		else if (p->state == RUNNING)
 		{
 			(*pstat)[i].state = 'R';
-			break;
 		}
 		else if (p->state == RUNNABLE)
 		{
 			(*pstat)[i].state = 'A';
-			break;
 		}
 		else if (p->state == SLEEPING)
 		{
 			(*pstat)[i].state = 'S';
-			break;
 		}
 		else if (p->state == ZOMBIE)
 		{
 			(*pstat)[i].state = 'Z';
-			break;
 		}
 		else
 		{
-			(*pstat)[i].state = '?';
-			break;		
+			(*pstat)[i].state = '?';	
 		}
 	}
 	release(&ptable.lock);

@@ -1,6 +1,7 @@
+#include "pstat.h"
+
 struct stat;
 struct rtcdate;
-struct pstat;
 
 // system calls
 int fork(void);

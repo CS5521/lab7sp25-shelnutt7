@@ -98,11 +98,11 @@ sys_getpinfo(void)
 {
 	pstatTable *pstat;
 
-	if (argptr(0, (void*)&pstat, sizeof(*pstat)) < 0)
+	if (argptr(0, (void*)&pstat, sizeof(pstatTable)) < 0)
 	{
 		return -1;
 	}
 	
-	getpinfo(pstat);
+	fillpstat(pstat);
 	return 0;
 }
