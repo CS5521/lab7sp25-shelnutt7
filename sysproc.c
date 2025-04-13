@@ -105,3 +105,9 @@ sys_getpinfo(pstatTable *pstat)
 	return 0;
 }
 
+int
+sys_settickets(int number)
+{
+	return 0;
+}
+
