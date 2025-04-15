@@ -22,6 +22,8 @@ extern void fillpstat(pstatTable *);
 
 static void wakeup1(void *chan);
 
+int gettickets(int pid);
+
 void
 pinit(void)
 {
@@ -214,11 +216,12 @@ fork(void)
 
   safestrcpy(np->name, curproc->name, sizeof(curproc->name));
   
+  int parent_tickets = gettickets(curproc->pid); 
   np->ticks = 0; // p1
   
-  if (curproc->tickets > 10) // p1
+  if (parent_tickets > 10) // p1
   {
-    np->tickets = curproc->tickets;
+    np->tickets = parent_tickets;
   }
   else
   {
@@ -602,3 +605,22 @@ fillpstat(pstatTable *pstat)
 	}
 	release(&ptable.lock);
 }
+
+int gettickets(int pid)
+{
+	struct proc *p;
+
+	acquire(&ptable.lock);
+	for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+	{
+		if (p->pid == pid && p->state != UNUSED)
+		{
+			int t = p->tickets;
+			release(&ptable.lock);
+			return t;
+		}
+	}
+	release(&ptable.lock);
+	return -1;
+}
+

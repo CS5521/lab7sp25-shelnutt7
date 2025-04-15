@@ -106,8 +106,27 @@ sys_getpinfo(pstatTable *pstat)
 }
 
 int
-sys_settickets(int number)
+sys_settickets(void)
 {
+	int n;
+
+	if (argint(0, &n) < 0)
+	{
+		return -1;
+	}
+
+	if (n < 10)
+	{
+		return -1;
+	}
+
+	struct proc *curproc = myproc();
+	if (curproc == 0)
+	{
+		return -1;
+	}
+
+	curproc->tickets = n;
 	return 0;
 }
 
